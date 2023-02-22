@@ -11,6 +11,12 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("a user connected");
+
+  socket.on('CREATE_VIDEO', (args) => {
+    socket.emit('TEST', {id: 1001})
+
+  });
+
 });
 
 io.on("connect_error", (err) => {
