@@ -14,7 +14,7 @@ io.on("connection", (socket) => {
 
   socket.on('CREATE_VIDEO', (args) => {
     console.log('create video emit');
-    io.emit('TEST', args)
+    io.emit('VIDEO_CREATED', args)
 
   });
 
