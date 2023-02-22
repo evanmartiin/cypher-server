@@ -13,7 +13,8 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on('CREATE_VIDEO', (args) => {
-      io.emit('TEST', args)
+    console.log('create video emit');
+    io.emit('TEST', args)
 
   });
 
