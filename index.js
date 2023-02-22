@@ -13,7 +13,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on('CREATE_VIDEO', (args) => {
-    socket.emit('TEST', {id: 1001})
+      io.emit('TEST', args)
 
   });
 
