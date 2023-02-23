@@ -11,6 +11,10 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("a user connected");
+  
+  socket.on('HELLO', (args) => {
+    console.log(args)
+  });
 
   socket.on('CREATE_VIDEO', (args) => {
     console.log('create video emit');
