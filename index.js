@@ -44,13 +44,13 @@ io.on("connection", (socket) => {
       })
       .on("end", () => {
         console.log("Concatenate finished");
-        io.emit('VIDEO_MERGED', fs.readFileSync('./assets/output.mp4'));
+        io.emit('VIDEO_MERGED', fs.readFileSync('output.mp4'));
 
         tempFiles.forEach((file) => {
           fs.unlinkSync(file);
         });
       })
-      .concat("./assets/output.mp4");
+      .concat("output.mp4");
   });
 });
 
