@@ -4,10 +4,10 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const ffmpeg = require('fluent-ffmpeg');
-const { StreamInput, StreamOutput } = require('fluent-ffmpeg-multistream')
+const ffmpeg = require("fluent-ffmpeg");
+const { StreamInput } = require("fluent-ffmpeg-multistream");
 const fs = require("fs");
-const { Readable } = require('stream');
+const { Readable, PassThrough } = require("stream");
 
 app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
@@ -16,24 +16,41 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on('HELLO', (args) => {
-    console.log(args)
+  socket.on("HELLO", (args) => {
+    console.log(args);
   });
 
-  socket.on('CREATE_VIDEO', async (args) => {
-    console.log('create video emit');
-    io.emit('VIDEO_CREATED', args)
+  socket.on("CREATE_VIDEO", async (args) => {
+    console.log("create video emit");
+    io.emit("VIDEO_CREATED", args);
 
-    ffmpeg(StreamInput(Readable.from(args.buffer)).url)
-    ffmpeg(StreamInput(Readable.from(args.buffer)).url)
-    .on('error', function(err) {
-      console.log('An error occurred: ' + err.message);
-    })
-    .on('end', function() {
-      console.log('Merging finished !');
-      io.emit('VIDEO_MERGED', fs.readFileSync('./assets/merged.mov'));
-    })
-    .mergeToFile('./assets/merged.mov', './assets');
+    const inputVideos = [args.buffer, args.buffer];
+
+    const tempFiles = inputVideos.map((video, i) => {
+      const filePath = `temp_${i}.mp4`;
+      fs.writeFileSync(filePath, Buffer.from(video));
+      return filePath;
+    });
+
+    const command = ffmpeg();
+    tempFiles.forEach((file) => {
+      command.input(file);
+    });
+
+    command
+      .on("error", (err, stdout, stderr) => {
+        console.error(err);
+        console.error(stderr);
+      })
+      .on("end", () => {
+        console.log("Concatenate finished");
+        io.emit('VIDEO_MERGED', fs.readFileSync('./assets/output.mp4'));
+
+        tempFiles.forEach((file) => {
+          fs.unlinkSync(file);
+        });
+      })
+      .concat("./assets/output.mp4");
   });
 });
 
