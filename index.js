@@ -32,11 +32,15 @@ io.on("connection", (socket) => {
     for await (let chunk of c.body) {
       chunks.push(chunk);
     }
+    const e = Buffer.concat(chunks);
+
+    const chunks2 = [];
     for await (let chunk of d.body) {
       chunks.push(chunk);
     }
+    const f = Buffer.concat(chunks2);
 
-    io.emit('VIDEO_MERGED', Buffer.concat(chunks));
+    io.emit('VIDEO_MERGED', Buffer.concat([e, f]));
   });
 
 });
