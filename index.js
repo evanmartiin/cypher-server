@@ -23,8 +23,8 @@ io.on("connection", (socket) => {
     console.log('create video emit');
     io.emit('VIDEO_CREATED', args)
 
-    ffmpeg(Readable.from(buffer))
-    .input(Readable.from(buffer))
+    ffmpeg(Readable.from(args.buffer))
+    .input(Readable.from(args.buffer))
     .on('error', function(err) {
       console.log('An error occurred: ' + err.message);
     })
