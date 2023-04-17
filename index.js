@@ -4,6 +4,8 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const ffmpeg = require('fluent-ffmpeg');
+const fs = require("fs");
 
 app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
@@ -19,6 +21,19 @@ io.on("connection", (socket) => {
   socket.on('CREATE_VIDEO', async (args) => {
     console.log('create video emit');
     io.emit('VIDEO_CREATED', args)
+
+    const buffer = Buffer.from(args.buffer)
+
+    ffmpeg(fs.createReadStream(buffer))
+    .input(fs.createReadStream(buffer))
+    .on('error', function(err) {
+      console.log('An error occurred: ' + err.message);
+    })
+    .on('end', function() {
+      console.log('Merging finished !');
+      io.emit('VIDEO_MERGED', fs.readFileSync('./assets/merged.mov'));
+    })
+    .mergeToFile('./assets/merged.mov', './assets');
   });
 });
 
