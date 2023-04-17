@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const ffmpeg = require('fluent-ffmpeg');
+const { StreamInput, StreamOutput } = require('fluent-ffmpeg-multistream')
 const fs = require("fs");
 const { Readable } = require('stream');
 
@@ -23,8 +24,8 @@ io.on("connection", (socket) => {
     console.log('create video emit');
     io.emit('VIDEO_CREATED', args)
 
-    ffmpeg(Readable.from(args.buffer))
-    .input(Readable.from(args.buffer))
+    ffmpeg(StreamInput(Readable.from(args.buffer)).url)
+    ffmpeg(StreamInput(Readable.from(args.buffer)).url)
     .on('error', function(err) {
       console.log('An error occurred: ' + err.message);
     })
