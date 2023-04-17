@@ -9,6 +9,23 @@ const { StreamInput } = require("fluent-ffmpeg-multistream");
 const fs = require("fs");
 const { Readable, PassThrough } = require("stream");
 
+const buffers = new Map();
+const completeBuffers = new Map();
+
+function mergeVideos() {
+  buffers.forEach((videos, id) => {
+    if (videos.length === videos[0].length) {
+      completeBuffers.set(
+        id,
+        videos
+          .sort((a, b) => a.index - b.index)
+          .map((video) => video.buffer)
+      );
+      buffers.delete(id);
+    }
+  });
+}
+
 app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
 });
@@ -20,11 +37,25 @@ io.on("connection", (socket) => {
     console.log(args);
   });
 
-  socket.on("CREATE_VIDEO", async (args) => {
+  socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
     io.emit("VIDEO_CREATED", args);
 
-    const inputVideos = [args.buffer, args.buffer];
+
+    console.log("Video received: " + video.index);
+    
+    if (buffers.has(video.id)) {
+      buffers.get(video.id).push(video);
+    } else {
+      buffers.set(video.id, [video]);
+    }
+
+    mergeVideos();
+    if (!completeBuffers.has(video.id)) return;
+
+    console.log("Video merging: " + video.index + "/" + video.length)
+
+    const inputVideos = completeBuffers.get(video.id);
 
     const tempFiles = inputVideos.map((video, i) => {
       const filePath = `temp_${i}.mp4`;
