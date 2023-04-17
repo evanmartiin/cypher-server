@@ -22,10 +22,8 @@ io.on("connection", (socket) => {
     console.log('create video emit');
     io.emit('VIDEO_CREATED', args)
 
-    const buffer = Buffer.from(args.buffer)
-
-    ffmpeg(fs.createReadStream(buffer))
-    .input(fs.createReadStream(buffer))
+    ffmpeg(fs.createReadStream(new Uint8Array(args.buffer, 1, 4)))
+    .input(fs.createReadStream(new Uint8Array(args.buffer, 1, 4)))
     .on('error', function(err) {
       console.log('An error occurred: ' + err.message);
     })
