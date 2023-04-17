@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
 
   socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
-    io.emit("VIDEO_CREATED", args);
+    io.emit("VIDEO_CREATED", video);
 
 
     console.log("Video received: " + video.index);
