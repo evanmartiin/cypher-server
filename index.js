@@ -19,8 +19,10 @@ io.on("connection", (socket) => {
   socket.on('CREATE_VIDEO', (args) => {
     console.log('create video emit');
     io.emit('VIDEO_CREATED', args)
+
+    const buffers = Array.from({ length: 3 }, () => Buffer.from(args.buffer));
     
-    io.emit('VIDEO_MERGED', Buffer.concat([args.buffer, args.buffer, args.buffer]));
+    io.emit('VIDEO_MERGED', Buffer.concat(buffers));
   });
 
 });
