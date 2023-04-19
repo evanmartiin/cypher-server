@@ -16,7 +16,7 @@ class DropBoxApi {
         console.log(response.result)
         console.log(response.result.fileBlob)
         console.log(response.result.fileBinary)
-        return response.result.fileBlob;
+        return response.result.fileBinary;
       })
       .catch((error) => {
         console.error(error);
