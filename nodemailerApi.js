@@ -1,6 +1,6 @@
 
 
-export default class nodemailerApi {
+class nodemailerApi {
   constructor() {
     console.log(nodemailer);
     this.nodemailer = require('nodemailer')
@@ -20,4 +20,8 @@ export default class nodemailerApi {
       }
     });
   }
+}
+
+module.exports = {
+    nodemailerApi
 }
