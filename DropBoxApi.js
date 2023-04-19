@@ -13,6 +13,9 @@ class DropBoxApi {
       .filesDownload({ path: path })
       .then((response) => {
         console.log(response)
+        console.log(response.result)
+        console.log(response.result.fileBlob)
+        console.log(response.result.fileBinary)
         return response.result.fileBlob;
       })
       .catch((error) => {
