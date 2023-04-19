@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "cypher server",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemailer": "^6.9.1",
     "socket.io": "^4.6.1"

@@ -1,14 +1,18 @@
+require("dotenv").config();
 
-
-class nodemailerApi {
+class NodeMailerApi {
   constructor() {
-    console.log(nodemailer);
-    this.nodemailer = require('nodemailer')
+    this.nodemailer = require("nodemailer");
+
+    console.log(process.env.SENDINBLUE_API_KEY);
+    console.log(process.env.SENDINBLUE_PW);
 
     this.transporter = this.nodemailer.createTransport({
-      host: "https://cypher-gobelins.herokuapp.com/",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
+      service: "SendinBlue",
+      auth: {
+        user: "justin.quillevere@edu.gobelins.fr",
+        pass: process.env.SENDINBLUE_API_KEY,
+      },
     });
 
     // verify connection configuration
@@ -20,8 +24,34 @@ class nodemailerApi {
       }
     });
   }
+
+  sendMail(video) {
+    // Envoi d'un e-mail
+    const mailOptions = {
+      from: "justin.quillevere@edu.gobelins.fr",
+      to: "justinspam@outlook.fr",
+      subject: "Vidéo Cypher !",
+      text: "Voici votre vidéo :",
+      attachments: [
+        {
+            filename: 'video.mp4',
+            content: video,
+            encoding: 'base64',
+            contentType: 'video/mp4'
+        }
+    ]
+    };
+
+    this.transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("E-mail envoyé: " + info.response);
+      }
+    });
+  }
 }
 
 module.exports = {
-    nodemailerApi
-}
+  NodeMailerApi,
+};
