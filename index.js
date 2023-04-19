@@ -1,5 +1,5 @@
 
-const { NodeMailerApi } = require("./NodeMailerApi");
+const { NodeMailerApi } = require("./nodemailerApi");
 const { DropBoxApi } = require('./DropBoxApi');
 
 //Init mail & dropbox API
