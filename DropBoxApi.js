@@ -12,6 +12,7 @@ class DropBoxApi {
     const res = this.dropbox
       .filesDownload({ path: path })
       .then((response) => {
+        console.log(response)
         return response.result.fileBlob;
       })
       .catch((error) => {
