@@ -3,6 +3,7 @@
 class DropBoxApi {
   constructor() {
     const Dropbox = require('dropbox').Dropbox;
+    console.log(process.env.VITE_DROPBOX_KEY)
     const ACCESS_TOKEN = process.env.VITE_DROPBOX_KEY;
     this.dropbox = new Dropbox({ accessToken: ACCESS_TOKEN });
   }
@@ -17,6 +18,8 @@ class DropBoxApi {
       .catch((error) => {
         console.error(error);
       });
+
+      console.log(res)
 
     return res;
   }
