@@ -1,5 +1,8 @@
+
+
 class DropBoxApi {
   constructor() {
+    const Dropbox = require('dropbox').Dropbox;
     const ACCESS_TOKEN = process.env.VITE_DROPBOX_KEY;
     this.dropbox = new Dropbox({ accessToken: ACCESS_TOKEN });
   }
