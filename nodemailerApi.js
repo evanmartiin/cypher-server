@@ -33,8 +33,6 @@ class NodeMailerApi {
         {
             filename: 'video.mp4',
             content: video,
-            encoding: 'base64',
-            contentType: 'video/mp4'
         }
     ]
     };

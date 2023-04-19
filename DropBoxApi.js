@@ -19,8 +19,6 @@ class DropBoxApi {
         console.error(error);
       });
 
-      console.log(res)
-
     return res;
   }
 }
