@@ -14,17 +14,15 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-  
-  socket.on('HELLO', (args) => {
-    console.log(args)
+
+  socket.on("HELLO", (args) => {
+    console.log(args);
   });
 
-  socket.on('CREATE_VIDEO', (args) => {
-    console.log('create video emit');
-    io.emit('VIDEO_CREATED', args)
-
+  socket.on("CREATE_VIDEO", async (video) => {
+    console.log("create video emit");
+    io.emit("VIDEO_CREATED", video);
   });
-
 });
 
 io.on("connect_error", (err) => {
