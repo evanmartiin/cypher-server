@@ -1,3 +1,6 @@
+
+const { default: nodemailerApi } = require("./nodemailerApi");
+
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -31,3 +34,5 @@ io.on("connect_error", (err) => {
 server.listen(process.env.PORT || 3000, () => {
   console.log("listening on *:3000");
 });
+
+new nodemailerApi()
