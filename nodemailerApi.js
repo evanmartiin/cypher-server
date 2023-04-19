@@ -4,9 +4,6 @@ class NodeMailerApi {
   constructor() {
     this.nodemailer = require("nodemailer");
 
-    console.log(process.env.SENDINBLUE_API_KEY);
-    console.log(process.env.SENDINBLUE_PW);
-
     this.transporter = this.nodemailer.createTransport({
       service: "SendinBlue",
       auth: {
