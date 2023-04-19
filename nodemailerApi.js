@@ -26,7 +26,7 @@ class NodeMailerApi {
     // Envoi d'un e-mail
     const mailOptions = {
       from: "justin.quillevere@edu.gobelins.fr",
-      to: "justinspam@outlook.fr",
+      to: "ambroise.nicolao@edu.gobelins.fr",
       subject: "Vidéo Cypher !",
       text: "Voici votre vidéo :",
       attachments: [
