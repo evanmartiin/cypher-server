@@ -22,11 +22,11 @@ class NodeMailerApi {
     });
   }
 
-  sendMail(video) {
+  sendMail(video, mail) {
     // Envoi d'un e-mail
     const mailOptions = {
       from: "justin.quillevere@edu.gobelins.fr",
-      to: "ambroise.nicolao@edu.gobelins.fr",
+      to: `${mail}`,
       subject: "Vidéo Cypher !",
       text: "Voici votre vidéo :",
       attachments: [

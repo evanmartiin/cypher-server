@@ -32,12 +32,10 @@ io.on("connection", (socket) => {
     io.emit("VIDEO_CREATED", video);
   });
 
-  socket.on("SEND_VIDEO_BY_MAIL", async (path) => {
+  socket.on("SEND_VIDEO_BY_MAIL", async (path, email) => {
     console.log('send video by mail')
     const video = await dropbox.getSingleVideo(path)
-
-    console.log(video)
-    mail.sendMail(video)
+    mail.sendMail(video, email)
   })
 });
 
