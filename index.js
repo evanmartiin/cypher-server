@@ -13,8 +13,6 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-let id = 0;
-
 
 
 app.get("/", (req, res) => {
@@ -30,14 +28,17 @@ io.on("connection", (socket) => {
 
   socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
-    io.emit("VIDEO_CREATED", video, id);
-    id++
+    io.emit("VIDEO_CREATED", video);
   });
 
   socket.on("SEND_VIDEO_BY_MAIL", async (path, email) => {
     console.log('send video by mail')
     const video = await dropbox.getSingleVideo(path)
     mail.sendMail(video, email)
+  })
+
+  socket.on("ID_CREATED", (id) => {
+    io.emit("SEND_ID", id)
   })
 });
 
