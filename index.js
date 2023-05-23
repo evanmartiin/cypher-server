@@ -13,6 +13,7 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+let id = 0;
 
 
 
@@ -29,7 +30,8 @@ io.on("connection", (socket) => {
 
   socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
-    io.emit("VIDEO_CREATED", video);
+    io.emit("VIDEO_CREATED", video, id);
+    id++
   });
 
   socket.on("SEND_VIDEO_BY_MAIL", async (path, email) => {
