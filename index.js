@@ -1,10 +1,12 @@
 
 const { NodeMailerApi } = require("./nodemailerApi");
 const { DropBoxApi } = require('./DropBoxApi');
+const { Video } = require("./video");
 
 //Init mail & dropbox API
 const mail = new NodeMailerApi()
 const dropbox = new DropBoxApi()
+const videoApi = new Video()
 
 //Init server
 const express = require("express");
@@ -28,12 +30,16 @@ io.on("connection", (socket) => {
 
   socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
+    //Stock tous les buffers d'une vidéo
+    videoApi.saveVideo(video)
+    
     io.emit("VIDEO_CREATED", video);
   });
 
-  socket.on("SEND_VIDEO_BY_MAIL", async (path, email) => {
+  socket.on("SEND_VIDEO_BY_MAIL", async (id, email) => {
     console.log('send video by mail')
-    const video = await dropbox.getSingleVideo(path)
+    // const video = await dropbox.getSingleVideo(path)
+    const video = videoApi.getVideo(id)
     mail.sendMail(video, email)
   })
 
