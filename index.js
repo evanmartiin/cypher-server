@@ -51,6 +51,7 @@ io.on("connection", (socket) => {
 
     const blobVideo = await videoApi.getVideo(buffers, video.id)
     mail.sendMail(blobVideo, video.email)
+    buffers.delete(video.id)
   })
 
   socket.on("ID_CREATED", (id) => {
