@@ -28,7 +28,7 @@ class Video {
     const mergedBuffer = buffers
       .sort((a, b) => a.index - b.index)
       .map((video) => video.buffer)
-      .reduce((a, b) => mergeBuffers(a, b), new Uint8Array());
+      .reduce((a, b) => this.mergeBuffers(a, b), new Uint8Array());
     this.videos.delete(id);
     return mergedBuffer;
   }
