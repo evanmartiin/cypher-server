@@ -17,10 +17,11 @@ class Video {
     this.videos = buffers
 
     const videoBuffer = this.mergeVideoBuffers(id);
+    const video = new Uint8Array(videoBuffer)
     const blob = new Blob([videoBuffer], {
         type: "video/mp4",
       });
-    return videoBuffer;
+    return video;
   }
 
   mergeVideoBuffers(id) {
