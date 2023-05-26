@@ -49,8 +49,8 @@ io.on("connection", (socket) => {
 
     if (video.length > video.index + 1) return;
 
-    const video = videoApi.getVideo(buffers, video.id)
-    mail.sendMail(video, video.email)
+    const blobVideo = videoApi.getVideo(buffers, video.id)
+    mail.sendMail(blobVideo, video.email)
   })
 
   socket.on("ID_CREATED", (id) => {
