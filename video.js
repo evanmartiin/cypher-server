@@ -20,7 +20,7 @@ class Video {
     const blob = new Blob([videoBuffer], {
         type: "video/mp4",
       });
-    return blob;
+    return videoBuffer;
   }
 
   mergeVideoBuffers(id) {
