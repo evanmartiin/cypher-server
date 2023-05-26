@@ -32,9 +32,6 @@ io.on("connection", (socket) => {
 
   socket.on("CREATE_VIDEO", async (video) => {
     console.log("create video emit");
-    //Stock tous les buffers d'une vidéo
-    videoApi.saveVideo(video)
-    
     io.emit("VIDEO_CREATED", video);
   });
 
