@@ -16,6 +16,8 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+const buffers = new Map()
+
 
 app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
@@ -36,11 +38,19 @@ io.on("connection", (socket) => {
     io.emit("VIDEO_CREATED", video);
   });
 
-  socket.on("SEND_VIDEO_BY_MAIL", async (id, email) => {
+  socket.on("SEND_VIDEO_BY_MAIL", async (video) => {
     console.log('send video by mail')
     // const video = await dropbox.getSingleVideo(path)
-    const video = videoApi.getVideo(id)
-    mail.sendMail(video, email)
+    if (buffers.has(video.id)) {
+      buffers.get(video.id).push(video);
+    } else {
+      buffers.set(video.id, [video]);
+    }
+
+    if (video.length > video.index + 1) return;
+
+    const video = videoApi.getVideo(buffers, video.id)
+    mail.sendMail(video, video.email)
   })
 
   socket.on("ID_CREATED", (id) => {

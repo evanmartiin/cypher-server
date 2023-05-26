@@ -13,9 +13,14 @@ class Video {
     if (video.length > video.index + 1) return;
   }
 
-  async getVideo(id) {
+  async getVideo(buffers, id) {
+    this.videos = buffers
+
     const videoBuffer = this.mergeVideoBuffers(id);
-    return videoBuffer;
+    const blob = new Blob([videoBuffer], {
+        type: "video/mp4",
+      });
+    return blob;
   }
 
   mergeVideoBuffers(id) {
